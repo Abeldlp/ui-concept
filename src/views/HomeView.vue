@@ -9,6 +9,8 @@ const store = useEnquiriesStore()
 const filter: Ref<string> = ref('')
 const selectedFilters: Ref<string[]> = ref([])
 
+store.setEnquiries()
+
 </script>
 
 <template>

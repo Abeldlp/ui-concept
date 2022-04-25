@@ -64,85 +64,12 @@ export const useEnquiriesStore = defineStore({
         sortable: true,
       },
     ],
-    enquiries: [
-      {
-        name: 'Abel DLP',
-        email: 'a.delapaz@presspage.com',
-        priority: 'High',
-        assigned_to: 'Roger Smith',
-        status: 'done',
-        follow_up: true,
-        due_date: '-',
-      },
-      {
-        name: 'Aggelos Balatsoukas',
-        email: 'a.balatsoukas@presspage.com',
-        priority: 'High',
-        assigned_to: 'Leticia Rupert',
-        status: 'todo',
-        follow_up: false,
-        due_date: '31/04/2022',
-      },
-      {
-        name: 'Fakhreddine Bedoui',
-        email: 'f.bedoui@presspage.com',
-        priority: 'Medium',
-        assigned_to: 'Ramni Lupent',
-        status: 'done',
-        follow_up: true,
-        due_date: '-',
-      },
-      {
-        name: 'Daan Schoone',
-        email: 'd.schoone@presspage.com',
-        assigned_to: 'Roger Smith',
-        priority: 'Low',
-        status: 'todo',
-        follow_up: false,
-        due_date: '28/04/2022',
-      },
-      {
-        name: 'Hugo Verhoef',
-        email: 'v.breugel@presspage.com',
-        assigned_to: 'Paul Grevier',
-        priority: 'Low',
-        status: 'todo',
-        follow_up: false,
-        due_date: '05/05/2022',
-      },
-      {
-        name: 'Vincent Breugel',
-        email: 'v.breugel@presspage.com',
-        assigned_to: 'John Rome',
-        priority: 'High',
-        status: 'todo',
-        follow_up: true,
-        due_date: '03/05/2022',
-      },
-      {
-        name: 'Jimmy Beekink',
-        email: 'j.beekink@presspage.com',
-        assigned_to: 'Justin Main',
-        priority: 'Medium',
-        status: 'done',
-        follow_up: false,
-        due_date: '-',
-      },
-      {
-        name: 'Leo Yang',
-        email: 'l.yang@gmail.com',
-        assigned_to: 'Ham Main',
-        priority: 'Low',
-        status: 'done',
-        follow_up: false,
-        due_date: '-',
-      },
-    ],
+    enquiries: [],
     selectedEnquiries: [],
   }),
   actions: {
     setEnquiries() {
-      this.enquiries ||
+      this.enquiries.length > 0 ||
         Api.get('/enquiries').then(
           (res: AxiosResponse) => (this.enquiries = res.data)
         );

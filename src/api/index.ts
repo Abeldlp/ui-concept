@@ -1,7 +1,8 @@
 import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 
-axios.defaults.baseURL = import.meta.env.VITE_APP_URL as string;
+axios.defaults.baseURL = 'http://localhost:4444';
+// import.meta.env.VITE_APP_URL as string;
 
 const Api = {
   get(url: string): Promise<AxiosResponse> {
