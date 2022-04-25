@@ -119,7 +119,7 @@ const rows = [
                 <!--TABLE HEADERS-->
                 <template v-slot:header="props">
                     <q-tr :props="props">
-                        <q-th>
+                        <q-th style="width: 20px">
                             <q-checkbox v-model="props.selected" />
                         </q-th>
                         <q-th v-for="col in props.cols" :key="col.name" :props="props">
