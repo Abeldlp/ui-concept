@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia';
+import { Api } from '@/api';
+import type { AxiosResponse } from 'axios';
 
 import type { Column, Enquiry } from '@/entities';
 
@@ -139,6 +141,11 @@ export const useEnquiriesStore = defineStore({
     selectedEnquiries: [],
   }),
   actions: {
-    setEnquiries() {},
+    setEnquiries() {
+      this.enquiries ||
+        Api.get('/enquiries').then(
+          (res: AxiosResponse) => (this.enquiries = res.data)
+        );
+    },
   },
 });
