@@ -3,10 +3,9 @@ import { ref } from 'vue'
 import type { Ref } from 'vue'
 import Avatar from '../components/Avatar.vue'
 import TableHeader from '../components/TableHeader.vue'
-import type { Column } from '../mockData'
-import { columns, rows } from '../mockData'
+import { useEnquiriesStore } from '@/stores/enquiries'
 
-const selected: Ref<Column[]> = ref([])
+const store = useEnquiriesStore()
 const filter: Ref<string> = ref('')
 const selectedFilters: Ref<string[]> = ref([])
 
@@ -24,12 +23,13 @@ const selectedFilters: Ref<string[]> = ref([])
             <!--TABLE-->
             <q-table
                 title="Enquiries"
-                :rows="rows"
-                :columns="columns"
+                :rows="store.enquiries"
+                :columns="store.enquiriesColums"
                 :filter="filter"
                 row-key="name"
                 selection="multiple"
-                v-model:selected="selected"
+                v-model:selected="store.selectedEnquiries"
+                :rows-per-page-options="[5, 10, 20, 50, 0]"
                 no-data-label="No data found"
             >
                 <!--TABLE INPUT FIELD AND FILTERS-->
@@ -127,7 +127,7 @@ const selectedFilters: Ref<string[]> = ref([])
                 <!--END TABLE-->
             </q-table>
         </div>
-        <pre>Selected: {{ selected }}</pre>
+        <pre>Selected: {{ store.selectedEnquiries }}</pre>
     </main>
 </template>
 
