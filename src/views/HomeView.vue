@@ -20,7 +20,7 @@ interface Column {
     headerClasses?: string;
 }
 
-const selectedRows: Ref<Column[]> = ref([])
+const selected: Ref<Column[]> = ref([])
 const filter: Ref<string> = ref('')
 
 const columns: Column[] = [
@@ -101,7 +101,8 @@ const rows = [
                 :columns="columns"
                 row-key="name"
                 selection="multiple"
-                v-model:selected="selectedRows"
+                v-model:selected="selected"
+                no-data-label="No data found"
             >
                 <!--TABLE INPUT FIELD AND FILTERS-->
                 <template v-slot:top-left>
@@ -118,6 +119,9 @@ const rows = [
                 <!--TABLE HEADERS-->
                 <template v-slot:header="props">
                     <q-tr :props="props">
+                        <q-th>
+                            <q-checkbox v-model="props.selected" />
+                        </q-th>
                         <q-th v-for="col in props.cols" :key="col.name" :props="props">
                             <TableHeader :text="col.label" />
                         </q-th>
@@ -127,7 +131,10 @@ const rows = [
                 <!--TABLE BODY-->
                 <template v-slot:body="props">
                     <q-tr :props="props">
-                        <q-td v-for="col in props.cols" :key="col.name">
+                        <q-td>
+                            <q-checkbox v-model="props.selected" />
+                        </q-td>
+                        <q-td v-for="col in props.cols" :key="col.name" :props="props">
                             <template v-if="col.name === 'name'">
                                 <Avatar :text="col.value" />
                             </template>
@@ -143,6 +150,6 @@ const rows = [
                 <!--END TABLE-->
             </q-table>
         </div>
-        <p>Selected: {{ JSON.stringify(selectedRows) }}</p>
+        <p>Selected: {{ JSON.stringify(selected) }}</p>
     </main>
 </template>
