@@ -3,92 +3,13 @@ import { ref } from 'vue'
 import type { Ref } from 'vue'
 import Avatar from '../components/Avatar.vue'
 import TableHeader from '../components/TableHeader.vue'
-
-interface Column {
-    name: string;
-    label: string;
-    field: string | ((row: any) => any);
-    required?: boolean;
-    align?: "left" | "right" | "center";
-    sortable?: boolean;
-    sort?: (a: any, b: any, rowA: any, rowB: any) => number;
-    sortOrder?: "ad" | "da";
-    format?: (val: any, row: any) => any;
-    style?: string | ((row: any) => string);
-    classes?: string | ((row: any) => string);
-    headerStyle?: string;
-    headerClasses?: string;
-}
+import type { Column } from '../mockData'
+import { columns, rows } from '../mockData'
 
 const selected: Ref<Column[]> = ref([])
 const filter: Ref<string> = ref('')
+const selectedFilters: Ref<string[]> = ref([])
 
-const columns: Column[] = [
-    {
-        name: 'name',
-        label: 'Name',
-        field: 'name',
-        required: true,
-        align: 'left',
-        sortable: true,
-        sortOrder: 'ad'
-    },
-    {
-        name: 'email',
-        required: true,
-        label: 'Email',
-        align: 'left',
-        field: 'email',
-        sortable: true
-    },
-    {
-        name: 'status',
-        required: true,
-        label: 'Status',
-        align: 'left',
-        field: 'status',
-        sortable: true
-    },
-]
-
-const rows = [
-    {
-        name: 'Abel DLP',
-        email: 'a.delapaz@presspage.com',
-        status: 'done',
-        follow_up: true
-    },
-    {
-        name: 'Aggelos Balatsoukas',
-        email: 'a.balatsoukas@presspage.com',
-        status: 'todo',
-        follow_up: false
-    },
-    {
-        name: 'Tim Tempel',
-        email: 't.vantempel@presspage.com',
-        status: 'done',
-        follow_up: true
-    },
-    {
-        name: 'Daan Schoone',
-        email: 'd.schoone@presspage.com',
-        status: 'todo',
-        follow_up: false
-    },
-    {
-        name: 'Vincent Breugel',
-        email: 'v.breugel@presspage.com',
-        status: 'todo',
-        follow_up: false
-    },
-    {
-        name: 'Vincent Breugel',
-        email: 'v.breugel@presspage.com',
-        status: 'todo',
-        follow_up: false
-    },
-]
 </script>
 
 <template>
@@ -99,6 +20,7 @@ const rows = [
                 title="Enquiries"
                 :rows="rows"
                 :columns="columns"
+                :filter="filter"
                 row-key="name"
                 selection="multiple"
                 v-model:selected="selected"
@@ -107,12 +29,34 @@ const rows = [
                 <!--TABLE INPUT FIELD AND FILTERS-->
                 <template v-slot:top-left>
                     <div style="display: flex; align-items: center;">
-                        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+                        <q-input
+                            borderless
+                            dense
+                            debounce="300"
+                            outlined
+                            v-model="filter"
+                            placeholder="Filter by name, email..."
+                        >
                             <template v-slot:append>
                                 <q-icon name="search" />
                             </template>
                         </q-input>
-                        <span>Filters</span>
+                        <q-select
+                            borderless
+                            transition-show="jump-up"
+                            transition-hide="jump-down"
+                            dense
+                            fill-input
+                            outlined
+                            use-chips
+                            auto-width
+                            :stack-label="false"
+                            v-model="selectedFilters"
+                            multiple
+                            :options="['test1', 'test2']"
+                            :label="selectedFilters.length == 0 ? 'Filters' : void 0"
+                            style="min-width: 100px; margin-left: 15px;"
+                        />
                     </div>
                 </template>
 
@@ -125,6 +69,7 @@ const rows = [
                         <q-th v-for="col in props.cols" :key="col.name" :props="props">
                             <TableHeader :text="col.label" />
                         </q-th>
+                        <q-th />
                     </q-tr>
                 </template>
 
@@ -144,12 +89,15 @@ const rows = [
                             </template>
                             <template v-else>{{ col.value }}</template>
                         </q-td>
+                        <q-td>
+                            <q-icon color="red" size="18px" name="delete" />
+                        </q-td>
                     </q-tr>
                 </template>
 
                 <!--END TABLE-->
             </q-table>
         </div>
-        <p>Selected: {{ JSON.stringify(selected) }}</p>
+        <pre>Selected: {{ selected }}</pre>
     </main>
 </template>
