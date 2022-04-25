@@ -101,3 +101,9 @@ const selectedFilters: Ref<string[]> = ref([])
         <pre>Selected: {{ selected }}</pre>
     </main>
 </template>
+
+<style scoped>
+main {
+    margin: 2rem;
+}
+</style>
