@@ -14,7 +14,6 @@ MaterialIconSet.table.arrowUp = 'expand_more';
 
 app.use(createPinia());
 app.use(Quasar, { icons: { MaterialIconSet } });
-// app.use(Quasar);
 app.use(router);
 
 app.mount('#app');

@@ -1,6 +1,6 @@
 <template>
     <div class="about">
-        <h3>This is an about page</h3>
+        <h3>Page to add enquiries</h3>
     </div>
 </template>
 
