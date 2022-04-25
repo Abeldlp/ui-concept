@@ -4,24 +4,34 @@ import type { Ref } from 'vue'
 import Avatar from '../components/Avatar.vue'
 import TableHeader from '../components/TableHeader.vue'
 
-interface Row {
+interface Column {
     name: string;
-    align?: string;
-    label?: string;
-    val?: any;
+    label: string;
+    field: string | ((row: any) => any);
+    required?: boolean;
+    align?: "left" | "right" | "center";
+    sortable?: boolean;
+    sort?: (a: any, b: any, rowA: any, rowB: any) => number;
+    sortOrder?: "ad" | "da";
+    format?: (val: any, row: any) => any;
+    style?: string | ((row: any) => string);
+    classes?: string | ((row: any) => string);
+    headerStyle?: string;
+    headerClasses?: string;
 }
 
-const selectedRows: Ref<Row[]> = ref([])
+const selectedRows: Ref<Column[]> = ref([])
 const filter: Ref<string> = ref('')
 
-const columns = [
+const columns: Column[] = [
     {
         name: 'name',
-        required: true,
         label: 'Name',
-        align: 'left',
         field: 'name',
-        sortable: true
+        required: true,
+        align: 'left',
+        sortable: true,
+        sortOrder: 'ad'
     },
     {
         name: 'email',
@@ -85,7 +95,14 @@ const rows = [
     <main>
         <div class="q-pa-md">
             <!--TABLE-->
-            <q-table title="Enquiries" :rows="rows" :columns="columns" row-key="name">
+            <q-table
+                title="Enquiries"
+                :rows="rows"
+                :columns="columns"
+                row-key="name"
+                selection="multiple"
+                v-model:selected="selectedRows"
+            >
                 <!--TABLE INPUT FIELD AND FILTERS-->
                 <template v-slot:top-left>
                     <div style="display: flex; align-items: center;">
@@ -100,8 +117,8 @@ const rows = [
 
                 <!--TABLE HEADERS-->
                 <template v-slot:header="props">
-                    <q-tr>
-                        <q-th auto-width v-for="col in props.cols" :key="col.name">
+                    <q-tr :props="props">
+                        <q-th v-for="col in props.cols" :key="col.name" :props="props">
                             <TableHeader :text="col.label" />
                         </q-th>
                     </q-tr>
@@ -109,7 +126,7 @@ const rows = [
 
                 <!--TABLE BODY-->
                 <template v-slot:body="props">
-                    <q-tr>
+                    <q-tr :props="props">
                         <q-td v-for="col in props.cols" :key="col.name">
                             <template v-if="col.name === 'name'">
                                 <Avatar :text="col.value" />
