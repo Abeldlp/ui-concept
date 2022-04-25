@@ -33,6 +33,22 @@ const columns: Column[] = [
     sortable: true,
   },
   {
+    name: 'priority',
+    required: true,
+    label: 'Priority',
+    align: 'left',
+    field: 'priority',
+    sortable: true,
+  },
+  {
+    name: 'assigned_to',
+    required: true,
+    label: 'Assigned to',
+    align: 'left',
+    field: 'assigned_to',
+    sortable: true,
+  },
+  {
     name: 'status',
     required: true,
     label: 'Status',
@@ -54,6 +70,8 @@ const rows = [
   {
     name: 'Abel DLP',
     email: 'a.delapaz@presspage.com',
+    priority: 'High',
+    assigned_to: 'Roger Smith',
     status: 'done',
     follow_up: true,
     due_date: '-',
@@ -61,6 +79,8 @@ const rows = [
   {
     name: 'Aggelos Balatsoukas',
     email: 'a.balatsoukas@presspage.com',
+    priority: 'High',
+    assigned_to: 'Leticia Rupert',
     status: 'todo',
     follow_up: false,
     due_date: '31/04/2022',
@@ -68,6 +88,8 @@ const rows = [
   {
     name: 'Fakhreddine Bedoui',
     email: 'f.bedoui@presspage.com',
+    priority: 'Medium',
+    assigned_to: 'Ramni Lupent',
     status: 'done',
     follow_up: true,
     due_date: '-',
@@ -75,6 +97,8 @@ const rows = [
   {
     name: 'Daan Schoone',
     email: 'd.schoone@presspage.com',
+    assigned_to: 'Roger Smith',
+    priority: 'Low',
     status: 'todo',
     follow_up: false,
     due_date: '28/04/2022',
@@ -82,6 +106,8 @@ const rows = [
   {
     name: 'Hugo Verhoef',
     email: 'v.breugel@presspage.com',
+    assigned_to: 'Paul Grevier',
+    priority: 'Low',
     status: 'todo',
     follow_up: false,
     due_date: '05/05/2022',
@@ -89,6 +115,8 @@ const rows = [
   {
     name: 'Vincent Breugel',
     email: 'v.breugel@presspage.com',
+    assigned_to: 'John Rome',
+    priority: 'High',
     status: 'todo',
     follow_up: true,
     due_date: '03/05/2022',
@@ -96,6 +124,8 @@ const rows = [
   {
     name: 'Jimmy Beekink',
     email: 'j.beekink@presspage.com',
+    assigned_to: 'Justin Main',
+    priority: 'Medium',
     status: 'done',
     follow_up: false,
     due_date: '-',

@@ -6,7 +6,7 @@ import Navigation from '@/components/Navigation.vue'
 <template>
     <div class="top-menu">MEDIA ENQUIRY</div>
     <div class="layout">
-        <header class="header-section">
+        <header class="header-section shadow-3">
             <Navigation />
         </header>
         <section class="body-section">

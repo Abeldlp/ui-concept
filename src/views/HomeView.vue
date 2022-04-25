@@ -13,6 +13,12 @@ const selectedFilters: Ref<string[]> = ref([])
 </script>
 
 <template>
+    <div class="header">
+        <h4>Enquiries</h4>
+        <RouterLink to="/about">
+            <q-btn color="secondary">Add Enquiry</q-btn>
+        </RouterLink>
+    </div>
     <main>
         <div class="q-pa-md">
             <!--TABLE-->
@@ -87,6 +93,29 @@ const selectedFilters: Ref<string[]> = ref([])
                                 <q-badge v-if="col.value === 'todo'" color="orange" outline>{{ col.value }}</q-badge>
                                 <q-badge v-if="col.value === 'done'" color="primary" outline>{{ col.value }}</q-badge>
                             </template>
+                            <template v-else-if="col.name === 'priority'">
+                                <q-chip
+                                    v-if="col.value === 'High'"
+                                    dense
+                                    color="cyan"
+                                    icon="keyboard_double_arrow_up"
+                                    outline
+                                >{{ col.value }}</q-chip>
+                                <q-chip
+                                    v-if="col.value === 'Medium'"
+                                    dense
+                                    color="green"
+                                    outline
+                                    icon="drag_handle"
+                                >{{ col.value }}</q-chip>
+                                <q-chip
+                                    v-if="col.value === 'Low'"
+                                    dense
+                                    color="primary"
+                                    outline
+                                    icon="keyboard_double_arrow_down"
+                                >{{ col.value }}</q-chip>
+                            </template>
                             <template v-else>{{ col.value }}</template>
                         </q-td>
                         <q-td>
@@ -103,7 +132,12 @@ const selectedFilters: Ref<string[]> = ref([])
 </template>
 
 <style scoped>
-main {
+.header {
     margin: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+main {
+    margin: 1rem;
 }
 </style>
