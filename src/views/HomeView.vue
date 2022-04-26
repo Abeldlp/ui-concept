@@ -1,19 +1,28 @@
 <script setup lang="ts">
 import { useEnquiriesStore } from '@/stores/enquiries'
+import { ref } from 'vue';
 import Table from '@/components/Table.vue'
+import AddEnquiry from '@/components/AddEnquiry.vue';
+
+const showModal = ref(false);
 
 const store = useEnquiriesStore()
 
 store.setEnquiries()
+
+const openModal = () => {
+  showModal.value = true;
+}
 
 </script>
 
 <template>
     <div class="header">
         <h4>All Enquiries</h4>
-        <RouterLink to="/about">
-            <q-btn color="secondary">Add Enquiry</q-btn>
-        </RouterLink>
+        <q-btn @click="openModal" color="secondary">Add Enquiry</q-btn>
+        <q-dialog v-model="showModal" persistent>
+          <add-enquiry></add-enquiry>
+        </q-dialog>
     </div>
     <main>
         <div class="q-pa-md">

@@ -5,6 +5,7 @@ import type { Enquiry, Column } from '@/entities'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { useEnquiriesStore } from '@/stores/enquiries'
+import { DateTime } from 'luxon'
 
 const props = defineProps<{
     enquiries: Enquiry[]
@@ -15,6 +16,17 @@ const store = useEnquiriesStore()
 const selectedFilters: Ref<string[]> = ref([])
 
 const filter: Ref<string> = ref('')
+
+const getDateTime = (dateString: string): string  => {
+  const dt = DateTime.fromFormat(dateString, 'dd/MM/yyyy')
+
+  console.log(dt)
+  if (dt.isValid) {
+    return dt.toLocaleString(DateTime.DATETIME_MED);
+  } else {
+    return '-'
+  }
+}
 </script>
 <template>
     <q-table
@@ -111,6 +123,9 @@ const filter: Ref<string> = ref('')
                             outline
                             icon="keyboard_double_arrow_down"
                         >{{ col.value }}</q-chip>
+                    </template>
+                    <template v-else-if="col.name === 'due_date'">
+                      {{ getDateTime(col.value) }}
                     </template>
                     <template v-else>{{ col.value }}</template>
                 </q-td>
