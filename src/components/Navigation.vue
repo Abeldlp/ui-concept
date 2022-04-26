@@ -6,25 +6,25 @@ import { RouterLink } from 'vue-router'
         <nav>
             <RouterLink to="/">
                 <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="person" />
+                    <q-icon style="margin-right:5px;" size="15px" name="question_answer" />
                     <span>All Enquiries</span>
                 </div>
             </RouterLink>
             <RouterLink to="/high-priority">
                 <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="create" />
+                    <q-icon style="margin-right:5px;" size="15px" name="keyboard_double_arrow_up" />
                     <span>High Priority</span>
                 </div>
             </RouterLink>
             <RouterLink to="/replies">
                 <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="note" />
+                    <q-icon style="margin-right:5px;" size="15px" name="checklist" />
                     <span>Enquiries todo</span>
                 </div>
             </RouterLink>
             <RouterLink to="/about">
                 <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="create" />
+                    <q-icon style="margin-right:5px;" size="15px" name="post_add" />
                     <span>Add Enquiry</span>
                 </div>
             </RouterLink>
@@ -63,7 +63,7 @@ nav a.router-link-exact-active:hover {
 nav a {
     width: 100%;
     text-align: left;
-    padding: 0 1rem;
+    padding: 1rem;
     color: black;
 }
 
