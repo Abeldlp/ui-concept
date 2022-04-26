@@ -7,19 +7,25 @@ import { RouterLink } from 'vue-router'
             <RouterLink to="/">
                 <div style="display:flex; align-items:center">
                     <q-icon style="margin-right:5px;" size="15px" name="person" />
-                    <span>Enquiries</span>
+                    <span>All Enquiries</span>
+                </div>
+            </RouterLink>
+            <RouterLink to="/high-priority">
+                <div style="display:flex; align-items:center">
+                    <q-icon style="margin-right:5px;" size="15px" name="create" />
+                    <span>High Priority</span>
+                </div>
+            </RouterLink>
+            <RouterLink to="/replies">
+                <div style="display:flex; align-items:center">
+                    <q-icon style="margin-right:5px;" size="15px" name="note" />
+                    <span>Enquiries todo</span>
                 </div>
             </RouterLink>
             <RouterLink to="/about">
                 <div style="display:flex; align-items:center">
                     <q-icon style="margin-right:5px;" size="15px" name="create" />
                     <span>Add Enquiry</span>
-                </div>
-            </RouterLink>
-            <RouterLink to="/replies">
-                <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="note" />
-                    <span>Replies</span>
                 </div>
             </RouterLink>
             <RouterLink to="/trash">

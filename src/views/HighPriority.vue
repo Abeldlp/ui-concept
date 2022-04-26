@@ -9,14 +9,14 @@ store.setEnquiries()
 
 <template>
     <div class="header">
-        <h4>Todo Enquiries</h4>
+        <h4>High Priority Enquiries</h4>
         <RouterLink to="/about">
             <q-btn color="secondary">Add Enquiry</q-btn>
         </RouterLink>
     </div>
     <main>
         <div class="q-pa-md">
-            <Table :enquiries="store.enquiriesTodo" :enquiries-colums="store.enquiriesColums" />
+            <Table :enquiries="store.enquiriesHigh" :enquiries-colums="store.enquiriesColums" />
         </div>
         <pre>Selected: {{ store.selectedEnquiries }}</pre>
     </main>

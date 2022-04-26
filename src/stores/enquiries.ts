@@ -67,6 +67,18 @@ export const useEnquiriesStore = defineStore({
     enquiries: [],
     selectedEnquiries: [],
   }),
+  getters: {
+    enquiriesTodo: (state) => {
+      return state.enquiries.filter(
+        (enquiry: Enquiry) => enquiry.status === 'todo'
+      );
+    },
+    enquiriesHigh: (state) => {
+      return state.enquiries.filter(
+        (enquiry: Enquiry) => enquiry.priority === 'High'
+      );
+    },
+  },
   actions: {
     setEnquiries() {
       this.enquiries.length > 0 ||
