@@ -86,5 +86,8 @@ export const useEnquiriesStore = defineStore({
           (res: AxiosResponse) => (this.enquiries = res.data)
         );
     },
+    saveEnquiry(enquiry: Enquiry) {
+      Api.post('/save-enquiry', enquiry);
+    },
   },
 });
