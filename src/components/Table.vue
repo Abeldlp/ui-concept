@@ -7,25 +7,28 @@ import { ref } from 'vue'
 import { useEnquiriesStore } from '@/stores/enquiries'
 import { DateTime } from 'luxon'
 
-const props = defineProps<{
-    enquiries: Enquiry[]
-    enquiriesColums: Column[]
-}>()
+const props = withDefaults(defineProps<{
+    enquiries: Enquiry[];
+    enquiriesColums: Column[];
+    advanced: boolean;
+}>(), {
+    advanced: false
+})
 
 const store = useEnquiriesStore()
 const selectedFilters: Ref<string[]> = ref([])
 
 const filter: Ref<string> = ref('')
 
-const getDateTime = (dateString: string): string  => {
-  const dt = DateTime.fromFormat(dateString, 'dd/MM/yyyy')
+const getDateTime = (dateString: string): string => {
+    const dt = DateTime.fromFormat(dateString, 'dd/MM/yyyy')
 
-  console.log(dt)
-  if (dt.isValid) {
-    return dt.toLocaleString(DateTime.DATETIME_MED);
-  } else {
-    return '-'
-  }
+    console.log(dt)
+    if (dt.isValid) {
+        return dt.toLocaleString(DateTime.DATETIME_MED);
+    } else {
+        return '-'
+    }
 }
 </script>
 <template>
@@ -41,7 +44,7 @@ const getDateTime = (dateString: string): string  => {
         no-data-label="No data found"
     >
         <!--TABLE INPUT FIELD AND FILTERS-->
-        <template v-slot:top-left>
+        <template v-if="props.advanced" v-slot:top-left>
             <div style="display: flex; align-items: center;">
                 <q-input
                     borderless
@@ -124,9 +127,7 @@ const getDateTime = (dateString: string): string  => {
                             icon="keyboard_double_arrow_down"
                         >{{ col.value }}</q-chip>
                     </template>
-                    <template v-else-if="col.name === 'due_date'">
-                      {{ getDateTime(col.value) }}
-                    </template>
+                    <template v-else-if="col.name === 'due_date'">{{ getDateTime(col.value) }}</template>
                     <template v-else>{{ col.value }}</template>
                 </q-td>
                 <q-td>

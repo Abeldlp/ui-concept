@@ -11,7 +11,7 @@ const store = useEnquiriesStore()
 store.setEnquiries()
 
 const openModal = () => {
-  showModal.value = true;
+    showModal.value = true;
 }
 
 </script>
@@ -21,12 +21,12 @@ const openModal = () => {
         <h4>All Enquiries</h4>
         <q-btn @click="openModal" color="secondary">Add Enquiry</q-btn>
         <q-dialog v-model="showModal" persistent>
-          <add-enquiry></add-enquiry>
+            <add-enquiry></add-enquiry>
         </q-dialog>
     </div>
     <main>
         <div class="q-pa-md">
-            <Table :enquiries="store.enquiries" :enquiries-colums="store.enquiriesColums" />
+            <Table advanced :enquiries="store.enquiries" :enquiries-colums="store.enquiriesColums" />
         </div>
         <pre>Selected: {{ store.selectedEnquiries }}</pre>
     </main>
