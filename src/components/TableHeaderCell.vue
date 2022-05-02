@@ -48,6 +48,7 @@ const selectedColumn: ComputedRef<boolean> = computed(() => {
 <style scoped lang="scss">
 .cell_container {
     display: inline-block;
+    color: grey;
 }
 .selectedColumn {
     color: #1876d2;
