@@ -14,7 +14,12 @@ store.setContacts()
     </div>
     <main>
         <div class="q-pa-md">
-            <Table advanced :rows="store.formattedContacts" :columns="store.contactColumns" />
+            <Table
+                advanced
+                :rows="store.formattedContacts"
+                :columns="store.contactColumns"
+                :row-selection="store.selectedContacts"
+            />
         </div>
         <pre>Selected: {{ store.selectedContacts }}</pre>
     </main>

@@ -43,27 +43,40 @@ export const useContactStore = defineStore({
     contacts: [],
     formattedContacts: [],
     selectedContacts: [],
+    loading: false,
+    filterText: '',
+    pagination: {
+      sortBy: 'name',
+      descending: false,
+      page: 1,
+      rowsPerPage: 5,
+      rowsNumber: 0,
+    },
   }),
   actions: {
     formatContact(contact: any) {
       return {
+        id: contact['@id'],
         name: contact.givenName + ' ' + contact.familyName,
         email: contact.email,
-        jobTitle: contact.organization.jobTitle,
-        organization: contact.organization.name,
+        jobTitle: contact.organization?.jobTitle || '',
+        organization: contact.organization?.name || '',
       };
     },
     setContacts() {
-      this.contacts.length > 0 ||
-        Api.get('/api/contacts').then((res: AxiosResponse) => {
-          res.data['hydra:member'].map(
-            (contact: any) =>
-              (this.formattedContacts = [
-                ...this.formattedContacts,
-                this.formatContact(contact),
-              ])
-          );
+      this.loading = true;
+      Api.get('/api/contacts', {
+        page: this.pagination.page,
+        itemsPerPage: this.pagination.rowsPerPage,
+        omni_search: this.filterText,
+      }).then((res: AxiosResponse) => {
+        this.pagination.rowsNumber = res.data['hydra:totalItems'];
+        this.formattedContacts = [];
+        res.data['hydra:member'].forEach((contact: any) => {
+          this.formattedContacts.push(this.formatContact(contact));
         });
+        this.loading = false;
+      });
     },
   },
 });

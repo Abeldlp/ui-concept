@@ -4,32 +4,29 @@ import TableHeader from '@/components/TableHeader.vue'
 import type { Enquiry, Column } from '@/entities'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import { useEnquiriesStore } from '@/stores/enquiries'
-import { DateTime } from 'luxon'
-
+import { useContactStore } from '@/stores/contacts'
+import { getDateTime } from '@/utils'
 
 const props = withDefaults(defineProps<{
     rows: Enquiry[];
     columns: Column[];
     advanced: boolean;
+    rowSelection: any[];
+    loading?: boolean;
 }>(), {
-    advanced: false
+    advanced: false,
+    loading: false,
 })
 
-const store = useEnquiriesStore()
+const contactStore = useContactStore()
 const selectedFilters: Ref<string[]> = ref([])
 
 const filter: Ref<string> = ref('')
 
-const getDateTime = (dateString: string): string => {
-    const dt = DateTime.fromFormat(dateString, 'dd/MM/yyyy')
-
-    console.log(dt)
-    if (dt.isValid) {
-        return dt.toLocaleString(DateTime.DATETIME_MED);
-    } else {
-        return '-'
-    }
+const handleRequest = (props) => {
+    contactStore.pagination.page = props.pagination.page
+    contactStore.pagination.rowsPerPage = props.pagination.rowsPerPage
+    contactStore.setContacts()
 }
 
 </script>
@@ -39,12 +36,15 @@ const getDateTime = (dateString: string): string => {
         title="Enquiries"
         :rows="props.rows"
         :columns="props.columns"
-        :filter="filter"
+        :filter="contactStore.filterText"
         row-key="name"
         selection="multiple"
-        v-model:selected="store.selectedEnquiries"
-        :rows-per-page-options="[5, 10, 20, 50, 0]"
+        :rows-per-page-options="[5, 10, 20, 50]"
         no-data-label="No data found"
+        :loading="contactStore.loading"
+        v-model:selected="contactStore.selectedContacts"
+        v-model:pagination="contactStore.pagination"
+        @request="handleRequest"
     >
         <!--TABLE INPUT FIELD AND FILTERS-->
         <template v-if="props.advanced" v-slot:top-left>
@@ -54,7 +54,7 @@ const getDateTime = (dateString: string): string => {
                     dense
                     debounce="300"
                     outlined
-                    v-model="filter"
+                    v-model="contactStore.filterText"
                     placeholder="Filter by name, email..."
                 >
                     <template v-slot:append>

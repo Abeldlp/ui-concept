@@ -4,6 +4,12 @@ import { RouterLink } from 'vue-router'
 <template>
     <div class="wrapper">
         <nav>
+            <RouterLink to="/contacts">
+                <div style="display:flex; align-items:center">
+                    <q-icon style="margin-right:5px;" size="15px" name="person" />
+                    <span>Contacts</span>
+                </div>
+            </RouterLink>
             <RouterLink to="/">
                 <div style="display:flex; align-items:center">
                     <q-icon style="margin-right:5px;" size="15px" name="question_answer" />
@@ -32,12 +38,6 @@ import { RouterLink } from 'vue-router'
                 <div style="display:flex; align-items:center">
                     <q-icon style="margin-right:5px;" size="15px" name="delete" />
                     <span>Trash</span>
-                </div>
-            </RouterLink>
-            <RouterLink to="/contacts">
-                <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="person" />
-                    <span>Contacts</span>
                 </div>
             </RouterLink>
         </nav>
