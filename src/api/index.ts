@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:4444';
+axios.defaults.baseURL = 'http://localhost:8080';
 // import.meta.env.VITE_APP_URL as string;
 
 const Api = {

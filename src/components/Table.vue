@@ -7,6 +7,7 @@ import { ref } from 'vue'
 import { useEnquiriesStore } from '@/stores/enquiries'
 import { DateTime } from 'luxon'
 
+
 const props = withDefaults(defineProps<{
     enquiries: Enquiry[];
     enquiriesColums: Column[];
@@ -30,7 +31,9 @@ const getDateTime = (dateString: string): string => {
         return '-'
     }
 }
+
 </script>
+
 <template>
     <q-table
         title="Enquiries"

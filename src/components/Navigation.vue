@@ -34,6 +34,12 @@ import { RouterLink } from 'vue-router'
                     <span>Trash</span>
                 </div>
             </RouterLink>
+            <RouterLink to="/contacts">
+                <div style="display:flex; align-items:center">
+                    <q-icon style="margin-right:5px;" size="15px" name="person" />
+                    <span>Contacts</span>
+                </div>
+            </RouterLink>
         </nav>
     </div>
 </template>
