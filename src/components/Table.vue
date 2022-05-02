@@ -20,6 +20,10 @@ const props = withDefaults(defineProps<{
 const contactStore = useContactStore()
 const selectedFilters: Ref<string[]> = ref([])
 
+const getSelectedString = (): string => {
+    return contactStore.selectedContacts.length + ' contacts selected'
+}
+
 </script>
 
 <template>
@@ -32,6 +36,8 @@ const selectedFilters: Ref<string[]> = ref([])
         @request="contactStore.handleTableChange"
         color="primary"
         no-data-label="No data found"
+        rows-per-page-label="Per page"
+        :selected-rows-label="getSelectedString"
         row-key="name"
         selection="multiple"
         title="Enquiries"
