@@ -21,27 +21,11 @@ const props = withDefaults(defineProps<{
 const contactStore = useContactStore()
 const selectedFilters: Ref<string[]> = ref([])
 
-const sorterKey = (key: string) => {
-    switch (key) {
-        case 'name':
-            return 'familyName';
-        case 'email':
-            return 'email'
-        case 'jobTitle':
-            return 'organization.jobTitle'
-        case 'organization':
-            return 'organization.name'
-        default:
-            return ''
-    }
-}
-
 const handleRequest = (props: any) => {
-    console.log(props)
     contactStore.pagination.page = props.pagination.page
     contactStore.pagination.rowsPerPage = props.pagination.rowsPerPage
     contactStore.pagination.sortBy = props.pagination.sortBy
-    contactStore.pagination.hydraSorter = sorterKey(props.pagination.sortBy)
+    contactStore.pagination.hydraSorter = contactStore.getSorterKey(props.pagination.sortBy)
     contactStore.pagination.descending = props.pagination.descending ? true : false
     contactStore.setContacts()
 }
@@ -50,18 +34,19 @@ const handleRequest = (props: any) => {
 
 <template>
     <q-table
-        title="Enquiries"
-        :rows="props.rows"
         :columns="props.columns"
         :filter="contactStore.filterText"
+        :loading="contactStore.loading"
+        :rows-per-page-options="[5, 10, 20, 50]"
+        :rows="props.rows"
+        @request="handleRequest"
+        color="primary"
+        no-data-label="No data found"
         row-key="name"
         selection="multiple"
-        :rows-per-page-options="[5, 10, 20, 50]"
-        no-data-label="No data found"
-        :loading="contactStore.loading"
-        v-model:selected="contactStore.selectedContacts"
+        title="Enquiries"
         v-model:pagination="contactStore.pagination"
-        @request="handleRequest"
+        v-model:selected="contactStore.selectedContacts"
     >
         <!--TABLE INPUT FIELD AND FILTERS-->
         <template v-if="props.advanced" v-slot:top-left>
@@ -94,6 +79,13 @@ const handleRequest = (props: any) => {
                     :label="selectedFilters.length == 0 ? 'Filters' : void 0"
                     style="min-width: 100px; margin-left: 15px;"
                 />
+                <q-btn
+                    flat
+                    style="margin-left: 15px;"
+                    color="primary"
+                    v-if="contactStore.selectedContacts.length > 0"
+                    @click="contactStore.selectedContacts = []"
+                >clear selection</q-btn>
             </div>
         </template>
 

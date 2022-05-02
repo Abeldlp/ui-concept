@@ -64,6 +64,20 @@ export const useContactStore = defineStore({
         organization: contact.organization?.name || '',
       };
     },
+    getSorterKey(key: string) {
+      switch (key) {
+        case 'name':
+          return 'familyName';
+        case 'email':
+          return 'email';
+        case 'jobTitle':
+          return 'organization.jobTitle';
+        case 'organization':
+          return 'organization.name';
+        default:
+          return '';
+      }
+    },
     setContacts() {
       this.loading = true;
       const parameters = {
