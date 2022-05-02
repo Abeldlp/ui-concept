@@ -26,7 +26,7 @@ const openModal = () => {
     </div>
     <main>
         <div class="q-pa-md">
-            <Table advanced :enquiries="store.enquiries" :enquiries-colums="store.enquiriesColums" />
+            <Table advanced :rows="store.enquiries" :columns="store.enquiriesColums" />
         </div>
         <pre>Selected: {{ store.selectedEnquiries }}</pre>
     </main>

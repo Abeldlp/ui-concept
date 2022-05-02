@@ -5,7 +5,7 @@ import type { AxiosResponse } from 'axios';
 export const useContactStore = defineStore({
   id: 'contacts',
   state: () => ({
-    enquiriesColums: [
+    contactColumns: [
       {
         name: 'name',
         label: 'Name',
@@ -41,14 +41,29 @@ export const useContactStore = defineStore({
       },
     ],
     contacts: [],
+    formattedContacts: [],
     selectedContacts: [],
   }),
   actions: {
+    formatContact(contact: any) {
+      return {
+        name: contact.givenName + ' ' + contact.familyName,
+        email: contact.email,
+        jobTitle: contact.organization.jobTitle,
+        organization: contact.organization.name,
+      };
+    },
     setContacts() {
       this.contacts.length > 0 ||
-        Api.get('/api/contacts').then(
-          (res: AxiosResponse) => (this.contacts = res.data)
-        );
+        Api.get('/api/contacts').then((res: AxiosResponse) => {
+          res.data['hydra:member'].map(
+            (contact: any) =>
+              (this.formattedContacts = [
+                ...this.formattedContacts,
+                this.formatContact(contact),
+              ])
+          );
+        });
     },
   },
 });

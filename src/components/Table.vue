@@ -9,8 +9,8 @@ import { DateTime } from 'luxon'
 
 
 const props = withDefaults(defineProps<{
-    enquiries: Enquiry[];
-    enquiriesColums: Column[];
+    rows: Enquiry[];
+    columns: Column[];
     advanced: boolean;
 }>(), {
     advanced: false
@@ -37,8 +37,8 @@ const getDateTime = (dateString: string): string => {
 <template>
     <q-table
         title="Enquiries"
-        :rows="props.enquiries"
-        :columns="props.enquiriesColums"
+        :rows="props.rows"
+        :columns="props.columns"
         :filter="filter"
         row-key="name"
         selection="multiple"

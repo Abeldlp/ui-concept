@@ -16,7 +16,7 @@ store.setEnquiries()
     </div>
     <main>
         <div class="q-pa-md">
-            <Table :enquiries="store.enquiriesTodo" :enquiries-colums="store.enquiriesColums" />
+            <Table :rows="store.enquiriesTodo" :columns="store.enquiriesColums" />
         </div>
         <pre>Selected: {{ store.selectedEnquiries }}</pre>
     </main>
