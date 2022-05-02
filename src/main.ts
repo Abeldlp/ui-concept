@@ -10,7 +10,8 @@ import router from './router';
 
 const app = createApp(App);
 
-MaterialIconSet.table.arrowUp = 'expand_more';
+// MaterialIconSet.table.arrowUp = 'expand_more';
+MaterialIconSet.table.arrowUp = '';
 
 app.use(createPinia());
 app.use(Quasar, { icons: { MaterialIconSet } });

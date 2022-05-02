@@ -46,7 +46,7 @@ export const useContactStore = defineStore({
     loading: false,
     filterText: '',
     pagination: {
-      sortBy: 'name',
+      sortBy: '',
       descending: false,
       page: 1,
       rowsPerPage: 5,
@@ -67,7 +67,7 @@ export const useContactStore = defineStore({
     getSorterKey(key: string) {
       switch (key) {
         case 'name':
-          return 'familyName';
+          return 'givenName';
         case 'email':
           return 'email';
         case 'jobTitle':
@@ -77,6 +77,14 @@ export const useContactStore = defineStore({
         default:
           return '';
       }
+    },
+    handleTableChange(props: any) {
+      this.pagination.page = props.pagination.page;
+      this.pagination.rowsPerPage = props.pagination.rowsPerPage;
+      this.pagination.sortBy = props.pagination.sortBy;
+      this.pagination.hydraSorter = this.getSorterKey(props.pagination.sortBy);
+      this.pagination.descending = props.pagination.descending ? true : false;
+      this.setContacts();
     },
     setContacts() {
       this.loading = true;

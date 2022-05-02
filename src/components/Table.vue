@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import Avatar from '@/components/Avatar.vue'
-import TableHeader from '@/components/TableHeader.vue'
 import type { Enquiry, Column } from '@/entities'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import { useContactStore } from '@/stores/contacts'
-import { getDateTime } from '@/utils'
+import TableHeaderCell from '@/components/TableHeaderCell.vue'
 
 const props = withDefaults(defineProps<{
     rows: Enquiry[];
@@ -21,15 +20,6 @@ const props = withDefaults(defineProps<{
 const contactStore = useContactStore()
 const selectedFilters: Ref<string[]> = ref([])
 
-const handleRequest = (props: any) => {
-    contactStore.pagination.page = props.pagination.page
-    contactStore.pagination.rowsPerPage = props.pagination.rowsPerPage
-    contactStore.pagination.sortBy = props.pagination.sortBy
-    contactStore.pagination.hydraSorter = contactStore.getSorterKey(props.pagination.sortBy)
-    contactStore.pagination.descending = props.pagination.descending ? true : false
-    contactStore.setContacts()
-}
-
 </script>
 
 <template>
@@ -39,7 +29,7 @@ const handleRequest = (props: any) => {
         :loading="contactStore.loading"
         :rows-per-page-options="[5, 10, 20, 50]"
         :rows="props.rows"
-        @request="handleRequest"
+        @request="contactStore.handleTableChange"
         color="primary"
         no-data-label="No data found"
         row-key="name"
@@ -47,6 +37,7 @@ const handleRequest = (props: any) => {
         title="Enquiries"
         v-model:pagination="contactStore.pagination"
         v-model:selected="contactStore.selectedContacts"
+        separator="none"
     >
         <!--TABLE INPUT FIELD AND FILTERS-->
         <template v-if="props.advanced" v-slot:top-left>
@@ -85,7 +76,9 @@ const handleRequest = (props: any) => {
                     color="primary"
                     v-if="contactStore.selectedContacts.length > 0"
                     @click="contactStore.selectedContacts = []"
-                >clear selection</q-btn>
+                >
+                    <q-icon name="clear" size="15px" style="margin-right: 5px" />clear selection
+                </q-btn>
             </div>
         </template>
 
@@ -96,7 +89,7 @@ const handleRequest = (props: any) => {
                     <q-checkbox v-model="props.selected" />
                 </q-th>
                 <q-th v-for="col in props.cols" :key="col.name" :props="props">
-                    <TableHeader :text="col.label" />
+                    <TableHeaderCell :text="col.label" :column="col.name" />
                 </q-th>
                 <q-th />
             </q-tr>
@@ -112,34 +105,6 @@ const handleRequest = (props: any) => {
                     <template v-if="col.name === 'name'">
                         <Avatar :text="col.value" />
                     </template>
-                    <template v-else-if="col.name === 'status'">
-                        <q-badge v-if="col.value === 'todo'" color="orange" outline>{{ col.value }}</q-badge>
-                        <q-badge v-if="col.value === 'done'" color="primary" outline>{{ col.value }}</q-badge>
-                    </template>
-                    <template v-else-if="col.name === 'priority'">
-                        <q-chip
-                            v-if="col.value === 'High'"
-                            dense
-                            color="cyan"
-                            icon="keyboard_double_arrow_up"
-                            outline
-                        >{{ col.value }}</q-chip>
-                        <q-chip
-                            v-if="col.value === 'Medium'"
-                            dense
-                            color="green"
-                            outline
-                            icon="drag_handle"
-                        >{{ col.value }}</q-chip>
-                        <q-chip
-                            v-if="col.value === 'Low'"
-                            dense
-                            color="primary"
-                            outline
-                            icon="keyboard_double_arrow_down"
-                        >{{ col.value }}</q-chip>
-                    </template>
-                    <template v-else-if="col.name === 'due_date'">{{ getDateTime(col.value) }}</template>
                     <template v-else>{{ col.value }}</template>
                 </q-td>
                 <q-td>
@@ -151,3 +116,14 @@ const handleRequest = (props: any) => {
         <!--END TABLE-->
     </q-table>
 </template>
+
+<style lang="scss" scoped>
+.q-table {
+    tbody tr:nth-child(odd) {
+        background: #fbfcfe;
+    }
+    .selected {
+        background-color: #edf2fc !important;
+    }
+}
+</style>
