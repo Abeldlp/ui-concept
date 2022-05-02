@@ -23,9 +23,12 @@ const selectedFilters: Ref<string[]> = ref([])
 
 const filter: Ref<string> = ref('')
 
-const handleRequest = (props) => {
+const handleRequest = (props: any) => {
+    console.log(props)
     contactStore.pagination.page = props.pagination.page
     contactStore.pagination.rowsPerPage = props.pagination.rowsPerPage
+    contactStore.pagination.sortBy = props.pagination.sortBy
+    contactStore.pagination.descending = props.pagination.descending ? true : false
     contactStore.setContacts()
 }
 

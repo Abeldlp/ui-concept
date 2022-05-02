@@ -65,11 +65,15 @@ export const useContactStore = defineStore({
     },
     setContacts() {
       this.loading = true;
-      Api.get('/api/contacts', {
+      const parameters = {
         page: this.pagination.page,
         itemsPerPage: this.pagination.rowsPerPage,
-        omni_search: this.filterText,
-      }).then((res: AxiosResponse) => {
+        ...(this.filterText && { omni_search: this.filterText }),
+        [`order[${this.pagination.sortBy}]`]: this.pagination.descending
+          ? 'desc'
+          : 'asc',
+      };
+      Api.get('/api/contacts', parameters).then((res: AxiosResponse) => {
         this.pagination.rowsNumber = res.data['hydra:totalItems'];
         this.formattedContacts = [];
         res.data['hydra:member'].forEach((contact: any) => {
