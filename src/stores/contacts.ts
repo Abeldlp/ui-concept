@@ -51,6 +51,7 @@ export const useContactStore = defineStore({
       page: 1,
       rowsPerPage: 5,
       rowsNumber: 0,
+      hydraSorter: 'name',
     },
   }),
   actions: {
@@ -69,7 +70,7 @@ export const useContactStore = defineStore({
         page: this.pagination.page,
         itemsPerPage: this.pagination.rowsPerPage,
         ...(this.filterText && { omni_search: this.filterText }),
-        [`order[${this.pagination.sortBy}]`]: this.pagination.descending
+        [`order[${this.pagination.hydraSorter}]`]: this.pagination.descending
           ? 'desc'
           : 'asc',
       };

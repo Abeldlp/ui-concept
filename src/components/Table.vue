@@ -21,13 +21,27 @@ const props = withDefaults(defineProps<{
 const contactStore = useContactStore()
 const selectedFilters: Ref<string[]> = ref([])
 
-const filter: Ref<string> = ref('')
+const sorterKey = (key: string) => {
+    switch (key) {
+        case 'name':
+            return 'familyName';
+        case 'email':
+            return 'email'
+        case 'jobTitle':
+            return 'organization.jobTitle'
+        case 'organization':
+            return 'organization.name'
+        default:
+            return ''
+    }
+}
 
 const handleRequest = (props: any) => {
     console.log(props)
     contactStore.pagination.page = props.pagination.page
     contactStore.pagination.rowsPerPage = props.pagination.rowsPerPage
     contactStore.pagination.sortBy = props.pagination.sortBy
+    contactStore.pagination.hydraSorter = sorterKey(props.pagination.sortBy)
     contactStore.pagination.descending = props.pagination.descending ? true : false
     contactStore.setContacts()
 }
