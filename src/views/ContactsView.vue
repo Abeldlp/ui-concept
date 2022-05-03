@@ -3,8 +3,12 @@ import { useContactStore } from '@/stores/contacts'
 import Table from '@/components/Table.vue'
 
 const store = useContactStore()
-
 store.setContacts()
+
+const getSelectedString = (): string => {
+    return store.selectedContacts.length + ' contacts selected'
+}
+
 </script>
 
 <template>
@@ -15,10 +19,13 @@ store.setContacts()
     <main>
         <div class="q-pa-md">
             <Table
-                advanced
-                :rows="store.formattedContacts"
                 :columns="store.contactColumns"
+                :selection-text="getSelectedString"
+                :store="store"
                 :row-selection="store.selectedContacts"
+                :rows="store.formattedContacts"
+                filtering
+                searching
             />
         </div>
         <pre>Selected: {{ store.selectedContacts }}</pre>

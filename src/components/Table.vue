@@ -1,59 +1,56 @@
 <script setup lang="ts">
 import Avatar from '@/components/Avatar.vue'
-import type { Enquiry, Column } from '@/entities'
+import type { Column } from '@/entities'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
-import { useContactStore } from '@/stores/contacts'
 import TableHeaderCell from '@/components/TableHeaderCell.vue'
 
 const props = withDefaults(defineProps<{
-    rows: Enquiry[];
+    rows: any[];
+    store: any;
     columns: Column[];
-    advanced: boolean;
     rowSelection: any[];
-    loading?: boolean;
+    searching?: boolean;
+    filtering?: boolean;
+    selectionText?: () => string;
 }>(), {
-    advanced: false,
-    loading: false,
+    searching: false,
+    filterling: false,
 })
 
-const contactStore = useContactStore()
 const selectedFilters: Ref<string[]> = ref([])
-
-const getSelectedString = (): string => {
-    return contactStore.selectedContacts.length + ' contacts selected'
-}
 
 </script>
 
 <template>
     <q-table
         :columns="props.columns"
-        :filter="contactStore.filterText"
-        :loading="contactStore.loading"
+        :filter="store.filterText"
+        :loading="store.loading"
         :rows-per-page-options="[5, 10, 20, 50]"
         :rows="props.rows"
-        @request="contactStore.handleTableChange"
+        @request="store.handleTableChange"
         color="primary"
         no-data-label="No data found"
         rows-per-page-label="Per page"
-        :selected-rows-label="getSelectedString"
+        :selected-rows-label="props.selectionText"
         row-key="name"
         selection="multiple"
         title="Enquiries"
-        v-model:pagination="contactStore.pagination"
-        v-model:selected="contactStore.selectedContacts"
+        v-model:pagination="store.pagination"
+        v-model:selected="store.selectedContacts"
         separator="none"
     >
         <!--TABLE INPUT FIELD AND FILTERS-->
-        <template v-if="props.advanced" v-slot:top-left>
+        <template v-if="props.searching || props.filterling" v-slot:top-left>
             <div style="display: flex; align-items: center;">
                 <q-input
+                    v-if="props.searching"
                     borderless
                     dense
                     debounce="300"
                     outlined
-                    v-model="contactStore.filterText"
+                    v-model="store.filterText"
                     placeholder="Filter by name, email..."
                 >
                     <template v-slot:append>
@@ -61,6 +58,7 @@ const getSelectedString = (): string => {
                     </template>
                 </q-input>
                 <q-select
+                    v-if="props.filtering"
                     borderless
                     transition-show="jump-up"
                     transition-hide="jump-down"
@@ -80,8 +78,8 @@ const getSelectedString = (): string => {
                     flat
                     style="margin-left: 15px;"
                     color="primary"
-                    v-if="contactStore.selectedContacts.length > 0"
-                    @click="contactStore.selectedContacts = []"
+                    v-if="store.selectedContacts.length > 0"
+                    @click="store.selectedContacts = []"
                 >
                     <q-icon name="clear" size="15px" style="margin-right: 5px" />clear selection
                 </q-btn>
