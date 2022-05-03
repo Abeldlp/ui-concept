@@ -14,7 +14,8 @@ const options = computed(() => {
     }))
 })
 
-props.store.selectedFilters[props.filterKey] = []
+!(props.filterKey in props.store.selectedFilters) &&
+    (props.store.selectedFilters[props.filterKey] = [])
 
 </script>
 

@@ -12,7 +12,13 @@ const contactStore = useContactStore()
     </div>
     <main>
         <div class="q-pa-md">
-            <Table :store="contactStore" searching filtering selection-text="contacts selected" />
+            <Table
+                :store="contactStore"
+                searching
+                filtering
+                row-redirects-to="contact"
+                selection-text="contacts selected"
+            />
         </div>
         <pre>Selected: {{ contactStore.selectedRows }}</pre>
         <pre>Selected-filters: {{ contactStore.selectedFilters }}</pre>

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Avatar from '@/components/Avatar.vue'
 import { watch } from 'vue'
+import router from '@/router'
 import TableHeaderCell from '@/components/TableHeaderCell.vue'
 import FilterSelector from '@/components/FilterSelector.vue'
 
 const props = withDefaults(defineProps<{
     store: any;
+    rowRedirectsTo?: string;
     searching?: boolean;
     filtering?: boolean;
     selectionText?: string;
@@ -20,6 +22,10 @@ watch(props.store.selectedFilters, () => {
     Object.keys(props.store.selectedFilters).length === props.store.filterSets.length
         && props.store.setRows()
 })
+
+const redirectToDetail = (detailId: string) => {
+    props.rowRedirectsTo && router.push({ path: `/${props.rowRedirectsTo}/${detailId.split('/').pop()}` })
+}
 
 const getSelectedString = (): string => {
     return props.store.selectedRows.length + ' contacts selected'
@@ -107,7 +113,7 @@ props.store.filterSets.length === 0 && props.store.setRows()
 
         <!--TABLE BODY-->
         <template v-slot:body="props">
-            <q-tr :props="props">
+            <q-tr :props="props" @click="redirectToDetail(props.row.id)">
                 <q-td>
                     <q-checkbox v-model="props.selected" />
                 </q-td>
