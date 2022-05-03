@@ -79,7 +79,7 @@ const getSelectedString = (): string => {
                     style="margin-left: 15px;"
                     color="primary"
                     v-if="store.selectedRows.length > 0"
-                    @click="store.selectedContacts = []"
+                    @click="store.selectedRows = []"
                 >
                     <q-icon name="clear" size="15px" style="margin-right: 5px" />clear selection
                 </q-btn>
