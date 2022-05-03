@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Avatar from '@/components/Avatar.vue'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
+import { watch } from 'vue'
 import TableHeaderCell from '@/components/TableHeaderCell.vue'
+import FilterSelector from '@/components/FilterSelector.vue'
 
 const props = withDefaults(defineProps<{
     store: any;
@@ -15,11 +15,17 @@ const props = withDefaults(defineProps<{
     selectionText: 'selected'
 })
 
-const selectedFilters: Ref<string[]> = ref([])
+
+watch(props.store.selectedFilters, () => {
+    Object.keys(props.store.selectedFilters).length === props.store.filterSets.length
+        && props.store.setRows()
+})
 
 const getSelectedString = (): string => {
     return props.store.selectedRows.length + ' contacts selected'
 }
+
+props.store.filterSets.length === 0 && props.store.setRows()
 </script>
 
 <template>
@@ -68,10 +74,10 @@ const getSelectedString = (): string => {
                     use-chips
                     auto-width
                     :stack-label="false"
-                    v-model="selectedFilters"
+                    v-model="props.store.selectedFilters.visibility"
                     multiple
                     :options="['test1', 'test2']"
-                    :label="selectedFilters.length == 0 ? 'Filters' : void 0"
+                    :label="props.store.selectedFilters.length === 0 ? 'Filters' : void 0"
                     style="min-width: 100px; margin-left: 15px;"
                 />
                 <q-btn
@@ -119,6 +125,15 @@ const getSelectedString = (): string => {
 
         <!--END TABLE-->
     </q-table>
+
+    <!-- FILTERS -->
+    <h5>Filters</h5>
+    <FilterSelector
+        v-for="filterSet in store.filterSets"
+        :store="store"
+        :filter-key="filterSet.key"
+        :filter-values="filterSet.values"
+    />
 </template>
 
 <style lang="scss" scoped>

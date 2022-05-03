@@ -3,8 +3,6 @@ import { useContactStore } from '@/stores/contacts'
 import Table from '@/components/Table.vue'
 
 const contactStore = useContactStore()
-contactStore.setRows()
-
 </script>
 
 <template>
@@ -17,6 +15,7 @@ contactStore.setRows()
             <Table :store="contactStore" searching filtering selection-text="contacts selected" />
         </div>
         <pre>Selected: {{ contactStore.selectedRows }}</pre>
+        <pre>Selected-filters: {{ contactStore.selectedFilters }}</pre>
     </main>
 </template>
 

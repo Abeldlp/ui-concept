@@ -41,6 +41,17 @@ export const useContactStore = defineStore('contacts', {
         sortable: true,
       },
     ],
+    filterSets: [
+      {
+        key: 'accounts.subscribedStatus',
+        values: ['Subscribed', 'Unsubscribed', 'Hard bounce', 'Soft bounce'],
+      },
+      {
+        key: 'visibility',
+        values: ['Dutch', 'English', 'French'],
+      },
+    ],
+    selectedFilters: {},
     rows: [],
     selectedRows: [],
     loading: false,
@@ -91,6 +102,7 @@ export const useContactStore = defineStore('contacts', {
       const parameters = {
         page: this.pagination.page,
         itemsPerPage: this.pagination.rowsPerPage,
+        ...this.selectedFilters,
         ...(this.filterText && { omni_search: this.filterText }),
         [`order[${this.pagination.hydraSorter}]`]: this.pagination.descending
           ? 'desc'

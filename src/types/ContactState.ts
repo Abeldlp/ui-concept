@@ -14,4 +14,6 @@ export interface ContactState {
     rowsNumber: number;
     hydraSorter: string;
   };
+  filterSets: any[];
+  selectedFilters: any;
 }
