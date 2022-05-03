@@ -1,9 +1,9 @@
 import type { Contact, Column } from '@/entities';
 
 export interface ContactState {
-  contactColumns: Column[];
-  formattedContacts: Contact[];
-  selectedContacts: Contact[];
+  columns: Column[];
+  rows: Contact[];
+  selectedRows: Contact[];
   loading: boolean;
   filterText: string;
   pagination: {

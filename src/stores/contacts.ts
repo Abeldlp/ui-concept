@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia';
+import type { ContactState } from '@/types';
 import { Api } from '@/api';
 import type { HydraContact } from '@/entities';
-import type { ContactState } from '@/types';
 import type { AxiosResponse } from 'axios';
 
-export const useContactStore = defineStore({
-  id: 'contacts',
+export const useContactStore = defineStore('contacts', {
   state: (): ContactState => ({
-    contactColumns: [
+    columns: [
       {
         name: 'name',
         label: 'Name',
@@ -42,8 +41,8 @@ export const useContactStore = defineStore({
         sortable: true,
       },
     ],
-    formattedContacts: [],
-    selectedContacts: [],
+    rows: [],
+    selectedRows: [],
     loading: false,
     filterText: '',
     pagination: {
@@ -56,7 +55,7 @@ export const useContactStore = defineStore({
     },
   }),
   actions: {
-    formatContact(contact: HydraContact) {
+    formatRow(contact: HydraContact) {
       return {
         id: contact['@id'],
         name: contact.givenName + ' ' + contact.familyName,
@@ -85,9 +84,9 @@ export const useContactStore = defineStore({
       this.pagination.sortBy = props.pagination.sortBy;
       this.pagination.hydraSorter = this.getSorterKey(props.pagination.sortBy);
       this.pagination.descending = props.pagination.descending ? true : false;
-      this.setContacts();
+      this.setRows();
     },
-    setContacts() {
+    setRows() {
       this.loading = true;
       const parameters = {
         page: this.pagination.page,
@@ -99,9 +98,9 @@ export const useContactStore = defineStore({
       };
       Api.get('/api/contacts', parameters).then((res: AxiosResponse) => {
         this.pagination.rowsNumber = res.data['hydra:totalItems'];
-        this.formattedContacts = [];
+        this.rows = [];
         res.data['hydra:member'].forEach((contact: HydraContact) => {
-          this.formattedContacts.push(this.formatContact(contact));
+          this.rows.push(this.formatRow(contact));
         });
         this.loading = false;
       });

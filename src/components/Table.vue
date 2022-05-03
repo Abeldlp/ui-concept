@@ -1,44 +1,44 @@
 <script setup lang="ts">
 import Avatar from '@/components/Avatar.vue'
-import type { Column } from '@/entities'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import TableHeaderCell from '@/components/TableHeaderCell.vue'
 
 const props = withDefaults(defineProps<{
-    rows: any[];
     store: any;
-    columns: Column[];
-    rowSelection: any[];
     searching?: boolean;
     filtering?: boolean;
-    selectionText?: () => string;
+    selectionText?: string;
 }>(), {
     searching: false,
     filterling: false,
+    selectionText: 'selected'
 })
 
 const selectedFilters: Ref<string[]> = ref([])
 
+const getSelectedString = (): string => {
+    return props.store.selectedRows.length + ' contacts selected'
+}
 </script>
 
 <template>
     <q-table
-        :columns="props.columns"
+        :columns="store.columns"
         :filter="store.filterText"
         :loading="store.loading"
         :rows-per-page-options="[5, 10, 20, 50]"
-        :rows="props.rows"
+        :rows="store.rows"
         @request="store.handleTableChange"
         color="primary"
         no-data-label="No data found"
         rows-per-page-label="Per page"
-        :selected-rows-label="props.selectionText"
+        :selected-rows-label="getSelectedString"
         row-key="name"
         selection="multiple"
         title="Enquiries"
         v-model:pagination="store.pagination"
-        v-model:selected="store.selectedContacts"
+        v-model:selected="store.selectedRows"
         separator="none"
     >
         <!--TABLE INPUT FIELD AND FILTERS-->
@@ -78,7 +78,7 @@ const selectedFilters: Ref<string[]> = ref([])
                     flat
                     style="margin-left: 15px;"
                     color="primary"
-                    v-if="store.selectedContacts.length > 0"
+                    v-if="store.selectedRows.length > 0"
                     @click="store.selectedContacts = []"
                 >
                     <q-icon name="clear" size="15px" style="margin-right: 5px" />clear selection
