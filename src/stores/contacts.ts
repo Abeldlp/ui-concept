@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
 import { Api } from '@/api';
+import type { HydraContact } from '@/entities';
+import type { ContactState } from '@/types';
 import type { AxiosResponse } from 'axios';
 
 export const useContactStore = defineStore({
   id: 'contacts',
-  state: () => ({
+  state: (): ContactState => ({
     contactColumns: [
       {
         name: 'name',
@@ -40,7 +42,6 @@ export const useContactStore = defineStore({
         sortable: true,
       },
     ],
-    contacts: [],
     formattedContacts: [],
     selectedContacts: [],
     loading: false,
@@ -55,7 +56,7 @@ export const useContactStore = defineStore({
     },
   }),
   actions: {
-    formatContact(contact: any) {
+    formatContact(contact: HydraContact) {
       return {
         id: contact['@id'],
         name: contact.givenName + ' ' + contact.familyName,
@@ -99,7 +100,7 @@ export const useContactStore = defineStore({
       Api.get('/api/contacts', parameters).then((res: AxiosResponse) => {
         this.pagination.rowsNumber = res.data['hydra:totalItems'];
         this.formattedContacts = [];
-        res.data['hydra:member'].forEach((contact: any) => {
+        res.data['hydra:member'].forEach((contact: HydraContact) => {
           this.formattedContacts.push(this.formatContact(contact));
         });
         this.loading = false;
