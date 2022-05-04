@@ -1,56 +1,14 @@
-import { defineStore } from 'pinia';
-import type { ContactState } from '@/types';
-import { Api } from '@/api';
-import type { HydraContact } from '@/entities';
 import type { AxiosResponse } from 'axios';
+import type { ContactState } from '@/types';
+import type { HydraContact } from '@/entities';
+import { Api } from '@/api';
+import { contactColumns, contactFilterSets } from '@/entities/contact';
+import { defineStore } from 'pinia';
 
 export const useContactStore = defineStore('contacts', {
   state: (): ContactState => ({
-    columns: [
-      {
-        name: 'name',
-        label: 'Name',
-        field: 'name',
-        required: true,
-        align: 'left',
-        sortable: true,
-        sortOrder: 'ad',
-      },
-      {
-        name: 'email',
-        required: true,
-        label: 'Email',
-        align: 'left',
-        field: 'email',
-        sortable: true,
-      },
-      {
-        name: 'jobTitle',
-        required: true,
-        label: 'Job Title',
-        align: 'left',
-        field: 'jobTitle',
-        sortable: true,
-      },
-      {
-        name: 'organization',
-        required: true,
-        label: 'Organization',
-        align: 'left',
-        field: 'organization',
-        sortable: true,
-      },
-    ],
-    filterSets: [
-      {
-        key: 'accounts.subscribedStatus',
-        values: ['Subscribed', 'Unsubscribed', 'Hard bounce', 'Soft bounce'],
-      },
-      {
-        key: 'visibility',
-        values: ['Dutch', 'English', 'French'],
-      },
-    ],
+    columns: contactColumns,
+    filterSets: contactFilterSets,
     selectedFilters: {},
     rows: [],
     selectedRows: [],

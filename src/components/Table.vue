@@ -31,7 +31,7 @@ const getSelectedString = (): string => {
     return props.store.selectedRows.length + ' contacts selected'
 }
 
-props.store.filterSets.length === 0 && props.store.setRows()
+props.store.setRows()
 </script>
 
 <template>
@@ -69,23 +69,17 @@ props.store.filterSets.length === 0 && props.store.setRows()
                         <q-icon name="search" />
                     </template>
                 </q-input>
-                <q-select
-                    v-if="props.filtering"
-                    borderless
-                    transition-show="jump-up"
-                    transition-hide="jump-down"
-                    dense
-                    fill-input
-                    outlined
-                    use-chips
-                    auto-width
-                    :stack-label="false"
-                    v-model="props.store.selectedFilters.visibility"
-                    multiple
-                    :options="['test1', 'test2']"
-                    :label="props.store.selectedFilters.length === 0 ? 'Filters' : void 0"
-                    style="min-width: 100px; margin-left: 15px;"
-                />
+                <q-btn-dropdown style="margin-left: 10px; color:#9C9C9C;" no-caps size="15px" outline label="Filters">
+                    <div style="width:300px" class="shadow-1">
+                        <FilterSelector
+                            v-for="filterSet in store.filterSets"
+                            :store="store"
+                            :filter-label="filterSet.label"
+                            :filter-key="filterSet.key"
+                            :filter-values="filterSet.values"
+                        />
+                    </div>
+                </q-btn-dropdown>
                 <q-btn
                     flat
                     style="margin-left: 15px;"
@@ -131,15 +125,6 @@ props.store.filterSets.length === 0 && props.store.setRows()
 
         <!--END TABLE-->
     </q-table>
-
-    <!-- FILTERS -->
-    <h5>Filters</h5>
-    <FilterSelector
-        v-for="filterSet in store.filterSets"
-        :store="store"
-        :filter-key="filterSet.key"
-        :filter-values="filterSet.values"
-    />
 </template>
 
 <style lang="scss" scoped>

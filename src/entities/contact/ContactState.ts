@@ -20,6 +20,6 @@ export interface ContactState {
     rowsNumber: number;
     hydraSorter: string;
   };
-  filterSets: FilterSet[];
-  selectedFilters: any;
+  filterSets?: FilterSet[];
+  selectedFilters: { [key: string]: string[] };
 }
