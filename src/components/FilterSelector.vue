@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps<{
     store: any
@@ -7,11 +7,15 @@ const props = defineProps<{
     filterValues: string[]
 }>()
 
+const optionsFilter = ref('sub')
+
 const options = computed(() => {
-    return props.filterValues.map((val: string) => ({
-        label: val,
-        value: val
-    }))
+    return props.filterValues
+        .filter((val: string) => { return val.toLowerCase().includes(optionsFilter.value.toLowerCase()) })
+        .map((val: string) => ({
+            label: val,
+            value: val
+        }))
 })
 
 !(props.filterKey in props.store.selectedFilters) &&
@@ -20,6 +24,7 @@ const options = computed(() => {
 </script>
 
 <template>
+    <q-input v-model="optionsFilter" dense outlined />
     <q-option-group
         v-model="props.store.selectedFilters[props.filterKey]"
         :options="options"
