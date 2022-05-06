@@ -20,8 +20,10 @@ const contactStore = useContactStore()
                 selection-text="contacts selected"
             />
         </div>
-        <pre>Selected: {{ contactStore.selectedRows }}</pre>
-        <pre>Selected-filters: {{ contactStore.selectedFilters }}</pre>
+        <q-expansion-item label="Store state" icon="storage">
+            <pre>Selected: {{ contactStore.selectedRows }}</pre>
+            <pre>Selected-filters: {{ contactStore.selectedFilters }}</pre>
+        </q-expansion-item>
     </main>
 </template>
 

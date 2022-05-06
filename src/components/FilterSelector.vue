@@ -20,6 +20,12 @@ const options = computed(() => {
         }))
 })
 
+const removeFromSelected = (selection: string) => {
+    props.store.selectedFilters[props.filterKey]
+        .splice(props.store.selectedFilters[props.filterKey].indexOf(selection), 1)
+
+}
+
 !(props.filterKey in props.store.selectedFilters) &&
     (props.store.selectedFilters[props.filterKey] = [])
 
@@ -36,7 +42,13 @@ const options = computed(() => {
                 dense
                 outlined
             />
-            <q-chip dense v-for="selected in props.store.selectedFilters[props.filterKey]" :label="selected" />
+            <q-chip
+                removable
+                dense
+                v-for="selected in props.store.selectedFilters[props.filterKey]"
+                @remove="removeFromSelected(selected)"
+                :label="selected"
+            />
         </q-card-section>
         <q-separator v-if="showOptions" />
         <q-card-actions v-if="showOptions" align="left">

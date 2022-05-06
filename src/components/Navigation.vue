@@ -4,34 +4,16 @@ import { RouterLink } from 'vue-router'
 <template>
     <div class="wrapper">
         <nav>
-            <RouterLink to="/contacts">
+            <RouterLink to="/">
                 <div style="display:flex; align-items:center">
                     <q-icon style="margin-right:5px;" size="15px" name="person" />
                     <span>Contacts</span>
                 </div>
             </RouterLink>
-            <RouterLink to="/">
+            <RouterLink to="/contacts">
                 <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="question_answer" />
-                    <span>All Enquiries</span>
-                </div>
-            </RouterLink>
-            <RouterLink to="/high-priority">
-                <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="keyboard_double_arrow_up" />
-                    <span>High Priority</span>
-                </div>
-            </RouterLink>
-            <RouterLink to="/replies">
-                <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="checklist" />
-                    <span>Enquiries todo</span>
-                </div>
-            </RouterLink>
-            <RouterLink to="/about">
-                <div style="display:flex; align-items:center">
-                    <q-icon style="margin-right:5px;" size="15px" name="post_add" />
-                    <span>Add Enquiry</span>
+                    <q-icon style="margin-right:5px;" size="15px" name="person" />
+                    <span>Contacts Subscribed</span>
                 </div>
             </RouterLink>
             <RouterLink to="/trash">

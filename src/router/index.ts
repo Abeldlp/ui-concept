@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
 import RepliesView from '@/views/RepliesView.vue';
 import TrashView from '@/views/TrashView.vue';
 import HighPriority from '@/views/HighPriority.vue';
@@ -12,7 +11,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: ContactsView,
     },
     {
       path: '/about',
