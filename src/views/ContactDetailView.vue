@@ -18,5 +18,8 @@ setContact()
 <template>
     Page for contact with id: {{ contactId }}
     <h4>{{ contact.givenName }} {{ contact.familyName }}</h4>
+    <div style="display:flex; flex-wrap:wrap; width: 400px">
+        <q-chip color="primary" text-color="white" v-for="tag in contact.tags">{{ tag }}</q-chip>
+    </div>
     <q-btn @click="router.go(-1)">Back</q-btn>
 </template>

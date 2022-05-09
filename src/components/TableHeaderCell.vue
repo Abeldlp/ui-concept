@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults, computed, ComputedRef } from 'vue';
+import { computed, type ComputedRef } from 'vue';
 import { useContactStore } from '@/stores/contacts'
 
 const store = useContactStore();
